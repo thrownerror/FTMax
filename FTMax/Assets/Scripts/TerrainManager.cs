@@ -114,18 +114,57 @@ public class TerrainManager : Singleton<TerrainManager> {
         }
     }
 
+    /// <summary>
+    /// Moves car Directly to desired node if node exists
+    /// </summary>
+    /// <param name="car"></param>
+    /// <param name="move"></param>
+    /// <param name="isPlayer"></param>
     public void MoveAgent(BattleAgent car, Vector2 move, bool isPlayer){
         int x = (int)move.x;
         int z = (int)move.y;
+
+        if (!isValidMove(move))
+        {
+            Debug.LogError("INVALID MOVE! Car: " + car.name);
+            return;
+        }
+        float journeyLength = Vector3.Distance(car.transform.position,terrain[x, z].transform.position);
+        float journeySpeed = (Time.deltaTime * 1);
+        while (car.transform.position != terrain[x, z].transform.position)
+        {
+            car.transform.position = Vector3.Lerp(car.transform.position, terrain[x, z].transform.position, journeySpeed);
+        }
+        terrain[x, z].Occupants.Add(car);
+        if (isPlayer)
+            playerNode = terrain[x, z];
+    }
+
+    public void MoveAgent(BattleAgent car, List<Vector2> moveList, bool isPlayer)
+    {
+        int x = (int)moveList[0].x;
+        int z = (int)moveList[0].y;
+
+        if (!isValidMove(moveList[0]))
+        {
+            Debug.LogError("INVALID MOVE! Car: " + car.name);
+            return;
+        }
+
         car.gameObject.transform.position = terrain[x, z].transform.position;
         terrain[x, z].Occupants.Add(car);
         if (isPlayer)
             playerNode = terrain[x, z];
     }
 
-    public bool isValidMove(Node location)
+    public bool isValidMove(Vector2 location)
     {
-        return true;
+        if (location.x < 0 || location.x > length - 1)
+            return false;
+        else if (location.y < 0 || location.y > width - 1)
+            return false;
+        else
+            return true;
     }
 
     public bool CheckForCollision(Node desiredLocation)
