@@ -16,26 +16,42 @@ public class BattleAgent : MonoBehaviour {
     public Vector2 velocity;
     public float speed;
     public float maxSpeed;
+    public float heat;
 
     public Node desiredNode;
+    public bool moving;
+    public float lerpSpeed;
+
+    public List<Vector3> moveList;
 
 	void Start () {
 		
 	}
 	
-	// Update is called once per frame
 	void Update () {
-		
-	}
-    public bool CanMoveTo(Node _moveToLoc) {
-        return true;
+        LerpToNextNode();
+
     }
-    public void SetDesiredNode(Node _desiredNode) {
-        desiredNode = _desiredNode;
+    public void RequesMoveAction(Action.ACTIONS _action) {
+        switch(_action) {
+            case Action.ACTIONS.MOVE_FORWARD:
+                //TerrainManager.Instance.MoveAgent(this, , true);
+                break;
+            case Action.ACTIONS.RIGHT_TURN:
+                break;
+            case Action.ACTIONS.LEFT_TURN:
+                break;
+        }
     }
-    public void SetPosition(Node _pos) {
-        gridPos = _pos;
-        transform.position = _pos.position;
+    public void LerpToNextNode() {
+        if(moving) {
+            //...
+        }
+    }
+
+
+    public void StartMove(List<Vector3> _nodeLocs) {
+        moving = true;
     }
     public void Accelerate(Vector2 _accelVector) {
         velocity += _accelVector;
@@ -48,9 +64,7 @@ public class BattleAgent : MonoBehaviour {
     public void SetHealth(int _health) {
         health = _health;
     }
-    public void TakeTurn() {
-        SetPosition(desiredNode);
-    }
+   
     void Rotate(Vector2 _dir) {
         gridRot += _dir;
     }

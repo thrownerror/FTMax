@@ -15,9 +15,7 @@ public class PlayerBattle : BattleAgent {
 	}
 
     void Move(Node _newPos, Vector2 _rotation, int spaces) {
-        if(CanMoveTo(gridPos)) {
-            
-        }
+
     }
 
 }
