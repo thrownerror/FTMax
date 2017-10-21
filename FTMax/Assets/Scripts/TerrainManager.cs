@@ -8,18 +8,15 @@ public class TerrainManager : MonoBehaviour {
     Node playerNode;
     GameObject[] prefabs;
 
-	// Use this for initialization
 	void Start () {
 		
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		
 	}
 
-    public void MoveAgent(BattleAgent car, Vector2 move)
-    {
+    public void MoveAgent(BattleAgent car, Vector2 move){
         
     }
 

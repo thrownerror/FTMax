@@ -5,6 +5,8 @@ using UnityEngine;
 public class BattleAgent : MonoBehaviour {
 
     public Node gridPos;
+    public Vector2 gridRot;
+
     public Node[] neighbors;
     public Node[] moveableNodes;
     public float health;
@@ -20,6 +22,9 @@ public class BattleAgent : MonoBehaviour {
 	void Update () {
 		
 	}
+    public bool CanMoveTo(Node _moveToLoc) {
+        return true;
+    }
     public void SetDesiredNode(Node _desiredNode) {
         desiredNode = _desiredNode;
     }
