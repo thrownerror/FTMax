@@ -27,11 +27,11 @@ public class BattleManager : MonoBehaviour
 {
     //Attributes
     public BattleStates battleState;
-
+    public PlayerBattle player;
 
 	// Use this for initialization
 	void Start () {
-		
+        TerrainManager.Instance.MoveAgent(player, new Vector2(10, 0), true);
 	}
 	
 	// Update is called once per frame
@@ -40,6 +40,7 @@ public class BattleManager : MonoBehaviour
         {
             Actions playerAct =GetPlayerAction();
             Actions enemyAction =GetAIAction();
+            CheckIfBattleOver();
         }	
 	}
 
