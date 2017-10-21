@@ -36,11 +36,12 @@ public class BattleManager : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-	    while(battleState != BattleStates.EndBattle)
+        //commenting out temporarily
+	    /*while(battleState != BattleStates.EndBattle)
         {
             Actions playerAct =GetPlayerAction();
             Actions enemyAction =GetAIAction();
-        }	
+        }*/	
 	}
 
     //Will Take in a Player, And a Enemy Car, + data about collision (not sure what this ) returns array of vector to for resolution

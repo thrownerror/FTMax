@@ -4,9 +4,21 @@ using UnityEngine;
 
 public class TerrainManager : MonoBehaviour {
     //Attributes
-    public Node[][] terrain;
-    Node playerNode;
+    public TerrainManager.TerrainNode[][] terrain;
+    TerrainManager.TerrainNode playerNode;
     GameObject[] prefabs;
+
+    public class TerrainNode {
+        public Vector2 position;
+        public TerrainManager.TerrainNode[] neighbors;
+        public BattleAgent[] Occupants;
+        public bool isTraversable;
+        public bool isBorder;
+
+        public TerrainNode(Vector2 _pos) {
+            position = _pos;
+        }
+    }
 
 	void Start () {
 		
@@ -16,16 +28,18 @@ public class TerrainManager : MonoBehaviour {
 		
 	}
 
-    public void MoveAgent(BattleAgent car, Vector2 move){
-        
+    public void MoveAgent(BattleAgent car, TerrainManager.TerrainNode _movePos){
+        if(car.CanMoveTo(_movePos)) {
+            car.SetPosition(_movePos);
+        }
     }
 
-    public bool isValidMove(Node location)
+    public bool isValidMove(TerrainNode location)
     {
         return true;
     }
 
-    public bool CheckForCollision(Node desiredLocation)
+    public bool CheckForCollision(TerrainNode desiredLocation)
     {
         if (desiredLocation.isTraversable)
             return false;
