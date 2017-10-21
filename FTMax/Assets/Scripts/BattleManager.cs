@@ -40,6 +40,16 @@ public class BattleManager : MonoBehaviour
     {
 
         while (battleState != BattleStates.EndBattle)
+=======
+	// Use this for initialization
+	void Start () {
+        TerrainManager.Instance.MoveAgent(player, new Vector2(10, 3), true);
+	}
+	
+	// Update is called once per frame
+	void Update () {
+	    while(battleState != BattleStates.EndBattle)
+>>>>>>> Josh
         {
             Actions playerAct = GetPlayerAction();
             Actions enemyAction = GetAIAction();
