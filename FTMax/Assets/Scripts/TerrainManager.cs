@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TerrainManager : Singleton<TerrainManager> {
+public class TerrainManager : MonoBehaviour {
     //Attributes
     public Node[,] terrain;
     public Node playerNode;
@@ -12,7 +12,7 @@ public class TerrainManager : Singleton<TerrainManager> {
     public int length = 20; //x axis of grid
     
     //Hidden Singleton Constructor
-    protected TerrainManager() {}
+    //protected TerrainManager() {}
 
 	public void Start () {
         GenerateGrid();
@@ -118,13 +118,13 @@ public class TerrainManager : Singleton<TerrainManager> {
     /// Moves car Directly to desired node if node exists
     /// </summary>
     /// <param name="car"></param>
-    /// <param name="move"></param>
+    /// <param name="node"></param>
     /// <param name="isPlayer"></param>
-    public void MoveAgent(BattleAgent car, Vector2 move, bool isPlayer){
-        int x = (int)move.x;
-        int z = (int)move.y;
+    public void MoveAgentToNode(BattleAgent car, Vector2 node, bool isPlayer){
+        int x = (int)node.x;
+        int z = (int)node.y;
 
-        if (!isValidMove(move))
+        if (!isValidMove(node))
         {
             Debug.LogError("INVALID MOVE! Car: " + car.name);
             return;
@@ -136,26 +136,35 @@ public class TerrainManager : Singleton<TerrainManager> {
             car.transform.position = Vector3.Lerp(car.transform.position, terrain[x, z].transform.position, journeySpeed);
         }
         terrain[x, z].Occupants.Add(car);
+        car.gridPos = terrain[x, z];
         if (isPlayer)
             playerNode = terrain[x, z];
     }
 
-    public void MoveAgent(BattleAgent car, List<Vector2> moveList, bool isPlayer)
+    public List<Node> MoveAgent(BattleAgent car, List<Vector2> moveList, bool isPlayer)
     {
-        int x = (int)moveList[0].x;
-        int z = (int)moveList[0].y;
+        Node current = car.gridPos;
+        List<Node> moves = new List<Node>();
 
-        if (!isValidMove(moveList[0]))
-        {
-            Debug.LogError("INVALID MOVE! Car: " + car.name);
-            return;
+        for(int i =0; i < moveList.Count; i++) { 
+            int x = (int)moveList[i].x;
+            int z = (int)moveList[i].y;
+
+            if (!isValidMove(current.position + moveList[i]))
+            {
+                Debug.LogError("INVALID MOVE! Car: " + car.name);
+                return new List<Node>();
+            }
+
+            moves.Add(terrain[(int)current.position.x + x, (int)current.position.y + z]);
         }
 
-        car.gameObject.transform.position = terrain[x, z].transform.position;
-        terrain[x, z].Occupants.Add(car);
-        if (isPlayer)
-            playerNode = terrain[x, z];
+        //car.gameObject.transform.position = terrain[x, z].transform.position;
+        //terrain[x, z].Occupants.Add(car);
+        //if (isPlayer)
+        //    playerNode = terrain[x, z];
 
+        return  moves;
     }
 
     public bool isValidMove(Vector2 location)

@@ -19,20 +19,5 @@ public class Node : MonoBehaviour {
 		
 	}
 
-    public Node() {
-        position = Vector2.zero;
-        neighbors = new List<Node>();
-        Occupants = new List<BattleAgent>();
-        isTraversable = true;
-        isBorder = false;
-    }
-
-    public Node(Vector2 pos, List<Node> neighborList, List<BattleAgent> occupant, bool traversable, bool border)
-    {
-        position = pos;
-        neighbors = neighborList;
-        Occupants = occupant;
-        isTraversable = traversable;
-        isBorder = border;
-    }
+    
 }

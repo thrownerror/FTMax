@@ -22,36 +22,76 @@ public class BattleAgent : MonoBehaviour {
     public bool moving;
     public float lerpSpeed;
 
-    public List<Vector3> moveList;
+    private Node[] moveList;
+    private int count;
+    public List<Vector2> requestedMoveList;
 
-	void Start () {
-		
-	}
+    void Start () {
+        requestedMoveList = new List<Vector2>();
+        count = 0;
+    }
 	
 	void Update () {
-        LerpToNextNode();
+        //  Debug.Log(moveList.Count);
+       LerpToNextNode();
 
     }
-    public void RequesMoveAction(Action.ACTIONS _action) {
+    public void RequestMoveAction(int _action) {
+        print("Request move");
+         
         switch(_action) {
-            case Action.ACTIONS.MOVE_FORWARD:
-                //TerrainManager.Instance.MoveAgent(this, , true);
+            case (int)Action.ACTIONS.MOVE_FORWARD:
+                for(int i = 0; i < Action.moveForward.Length; i++) {
+                    requestedMoveList.Add(Action.moveForward[i]);
+                }
+                List<Node> poop = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TerrainManager>().MoveAgent(this, requestedMoveList, true);
+                moveList = new Node[poop.Count];
+                for(int j = 0; j< poop.Count; j++) {
+                    moveList[j] = poop[j];
+                }
+                SetupMove(poop);
                 break;
-            case Action.ACTIONS.RIGHT_TURN:
+            case (int)Action.ACTIONS.RIGHT_TURN:
+                for (int i = 0; i < Action.turnRight.Length; i++) {
+                    requestedMoveList.Add(Action.turnRight[i]);
+                }
+
+                List<Node> poop2 = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TerrainManager>().MoveAgent(this, requestedMoveList, true);
+                SetupMove(poop2);
+                moveList = new Node[poop2.Count];
+                for (int j = 0; j < poop2.Count; j++) {
+                    moveList[j] = poop2[j];
+                }
                 break;
-            case Action.ACTIONS.LEFT_TURN:
+            case (int)Action.ACTIONS.LEFT_TURN:
                 break;
         }
     }
     public void LerpToNextNode() {
-        if(moving) {
-            //...
+        //print("lerpiin");
+        
+        if (moveList!= null) {
+            print("lerpiin");
+            transform.position = new Vector3(moveList[count].transform.position.x, 0, moveList[count].transform.position.z);
+            gridPos = moveList[count];
+           // moveList.Remove(moveList[count]);
+            if(count+1 < moveList.Length) {
+                count++;
+            }
+            else {
+                count = 0;
+                moveList = null;
+            }
         }
     }
 
+    private void SetupMove(List<Node> fuck) {
+      //  moveList = fuck;
+    }
 
     public void StartMove(List<Vector3> _nodeLocs) {
         moving = true;
+
     }
     public void Accelerate(Vector2 _accelVector) {
         velocity += _accelVector;

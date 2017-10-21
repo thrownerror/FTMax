@@ -32,7 +32,7 @@ public class BattleManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        TerrainManager.Instance.MoveAgent(player, new Vector2(10, 0), true);
+        GetComponent<TerrainManager>().MoveAgentToNode(player, new Vector2(10, 2), true);
     }
 
     // Update is called once per frame

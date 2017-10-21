@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class Action {
 
-    protected Vector2[] moveNodes;
-    public enum ACTIONS {MOVE_FORWARD, RIGHT_TURN, LEFT_TURN}
+    public enum ACTIONS {MOVE_FORWARD = 0, RIGHT_TURN = 1, LEFT_TURN = 2}
 
-    public class MoveForward : Action{
-        //moveNodes = {new Vector2(1,0)};
-    }
+    public static Vector2[] moveForward = { new Vector2(1,0) };
+    public static Vector2[] turnRight = { new Vector2(1, 0), new Vector2(0,-1) };
+    //public static Vector2[] turnLeft = { new Vector2(1, 0) };*/
 }
