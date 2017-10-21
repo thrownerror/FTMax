@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TerrainManager : MonoBehaviour {
+public class TerrainManager : Singleton<TerrainManager> {
     //Attributes
     public Node[,] terrain;
     public Node playerNode;
@@ -12,7 +12,7 @@ public class TerrainManager : MonoBehaviour {
     public int length = 20; //x axis of grid
     
     //Hidden Singleton Constructor
-    //protected TerrainManager() {}
+    protected TerrainManager() {}
 
 	public void Start () {
         GenerateGrid();
@@ -147,8 +147,8 @@ public class TerrainManager : MonoBehaviour {
         List<Node> moves = new List<Node>();
 
         for(int i =0; i < moveList.Count; i++) { 
-            int x = (int)moveList[i].x;
-            int z = (int)moveList[i].y;
+            int x = (int)(moveList[i].x * car.transform.forward.x);
+            int z = (int)(moveList[i].y * -car.transform.right.z);
 
             if (!isValidMove(current.position + moveList[i]))
             {
@@ -157,13 +157,8 @@ public class TerrainManager : MonoBehaviour {
             }
 
             moves.Add(terrain[(int)current.position.x + x, (int)current.position.y + z]);
+            current = terrain[(int)current.position.x + x, (int)current.position.y + z];
         }
-
-        //car.gameObject.transform.position = terrain[x, z].transform.position;
-        //terrain[x, z].Occupants.Add(car);
-        //if (isPlayer)
-        //    playerNode = terrain[x, z];
-
         return  moves;
     }
 

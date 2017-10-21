@@ -1,16 +1,37 @@
 fileFormatVersion: 2
-guid: 75ca6d0a56b8aeb44b6fb6cfac0aaec8
-timeCreated: 1508596336
+guid: 3900f4ecb9e404645826edf8d7e7970a
+timeCreated: 1508621491
 licenseType: Pro
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
+    100000: Car
+    100002: Car1
+    100004: //RootNode
+    100006: WheelBL
+    100008: WheelBLEnd
+    100010: WheelBR
+    100012: WheelBREnd
+    100014: WheelFL
+    100016: WheelFLEnd
+    100018: WheelFR
+    100020: WheelFREnd
+    400000: Car
+    400002: Car1
+    400004: //RootNode
+    400006: WheelBL
+    400008: WheelBLEnd
+    400010: WheelBR
+    400012: WheelBREnd
+    400014: WheelFL
+    400016: WheelFLEnd
+    400018: WheelFR
+    400020: WheelFREnd
     4300000: Car
+    7400000: Stop
+    7400002: MovingForwards
     9500000: //RootNode
+    13700000: Car
   materials:
     importMaterials: 1
     materialName: 0
@@ -33,7 +54,107 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Stop
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 4
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Car
+        weight: 1
+      - path: Car1
+        weight: 1
+      - path: Car1/WheelBL
+        weight: 1
+      - path: Car1/WheelBL/WheelBLEnd
+        weight: 1
+      - path: Car1/WheelBR
+        weight: 1
+      - path: Car1/WheelBR/WheelBREnd
+        weight: 1
+      - path: Car1/WheelFL
+        weight: 1
+      - path: Car1/WheelFL/WheelFLEnd
+        weight: 1
+      - path: Car1/WheelFR
+        weight: 1
+      - path: Car1/WheelFR/WheelFREnd
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: MovingForwards
+      takeName: Take 001
+      firstFrame: 5
+      lastFrame: 14
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Car
+        weight: 1
+      - path: Car1
+        weight: 1
+      - path: Car1/WheelBL
+        weight: 1
+      - path: Car1/WheelBL/WheelBLEnd
+        weight: 1
+      - path: Car1/WheelBR
+        weight: 1
+      - path: Car1/WheelBR/WheelBREnd
+        weight: 1
+      - path: Car1/WheelFL
+        weight: 1
+      - path: Car1/WheelFL/WheelFLEnd
+        weight: 1
+      - path: Car1/WheelFR
+        weight: 1
+      - path: Car1/WheelFR/WheelFREnd
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
