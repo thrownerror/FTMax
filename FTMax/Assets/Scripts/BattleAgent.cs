@@ -9,8 +9,13 @@ public class BattleAgent : MonoBehaviour {
 
     public TerrainManager.TerrainNode[] neighbors;
     public TerrainManager.TerrainNode[] moveableNodes;
+    
     public float health;
     public float maxHealth;
+
+    public Vector2 velocity;
+    public float speed;
+    public float maxSpeed;
 
     public TerrainManager.TerrainNode desiredNode;
 
@@ -31,6 +36,11 @@ public class BattleAgent : MonoBehaviour {
     public void SetPosition(TerrainManager.TerrainNode _pos) {
         gridPos = _pos;
         transform.position = _pos.position;
+    }
+    public void Accelerate(Vector2 _accelVector) {
+        velocity += _accelVector;
+        velocity = Vector2.ClampMagnitude(velocity, maxSpeed);
+        speed = velocity.magnitude;
     }
     public void SetRotation(Vector2 _rot) {
         gridRot = _rot;
