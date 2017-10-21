@@ -2,12 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Node : MonoBehaviour {
-    public Vector2 position;
-    public Node[] neighbors;
-    public BattleAgent[] Occupants;
-    public bool isTraversable;
-    public bool isBorder;
+public class OverworldAgents : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

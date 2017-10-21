@@ -18,14 +18,14 @@ public class TerrainManager : MonoBehaviour {
 		
 	}
 
-    public void MoveAgent(Agent car, Vector2 move)
+    public void MoveAgent(BattleAgent car, Vector2 move)
     {
         
     }
 
     public bool isValidMove(Node location)
     {
-
+        return true;
     }
 
     public bool CheckForCollision(Node desiredLocation)
