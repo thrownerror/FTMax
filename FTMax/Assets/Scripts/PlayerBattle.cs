@@ -11,20 +11,12 @@ public class PlayerBattle : BattleAgent {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKey(KeyCode.W)) {
-            Move(new TerrainManager.TerrainNode(new Vector2(0,1)), gridRot, 1);
-        }else if(Input.GetKey(KeyCode.A)) {
-            Move(new TerrainManager.TerrainNode(new Vector2(-1, 0)), gridRot, 1);
-        } else if(Input.GetKey(KeyCode.S)) {
-            Move(new TerrainManager.TerrainNode(new Vector2(0, -1)), gridRot, 1);
-        } else if(Input.GetKey(KeyCode.D)) {
-            Move(new TerrainManager.TerrainNode(new Vector2(1, 0)), gridRot, 1);
-        }
+		
 	}
 
-    void Move(TerrainManager.TerrainNode _newPos, Vector2 _rotation, int spaces) {
+    void Move(Node _newPos, Vector2 _rotation, int spaces) {
         if(CanMoveTo(gridPos)) {
-            base.SetPosition(new TerrainManager.TerrainNode(new Vector3(_newPos.position.x, 0, _newPos.position.y)));
+            
         }
     }
 

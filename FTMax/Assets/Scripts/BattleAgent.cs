@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class BattleAgent : MonoBehaviour {
 
-    public TerrainManager.TerrainNode gridPos;
+    public Node gridPos;
     public Vector2 gridRot;
 
-    public TerrainManager.TerrainNode[] neighbors;
-    public TerrainManager.TerrainNode[] moveableNodes;
+    public Node[] neighbors;
+    public Node[] moveableNodes;
     
     public float health;
     public float maxHealth;
@@ -17,7 +17,7 @@ public class BattleAgent : MonoBehaviour {
     public float speed;
     public float maxSpeed;
 
-    public TerrainManager.TerrainNode desiredNode;
+    public Node desiredNode;
 
 	void Start () {
 		
@@ -27,13 +27,13 @@ public class BattleAgent : MonoBehaviour {
 	void Update () {
 		
 	}
-    public bool CanMoveTo(TerrainManager.TerrainNode _moveToLoc) {
+    public bool CanMoveTo(Node _moveToLoc) {
         return true;
     }
-    public void SetDesiredNode(TerrainManager.TerrainNode _desiredNode) {
+    public void SetDesiredNode(Node _desiredNode) {
         desiredNode = _desiredNode;
     }
-    public void SetPosition(TerrainManager.TerrainNode _pos) {
+    public void SetPosition(Node _pos) {
         gridPos = _pos;
         transform.position = _pos.position;
     }
