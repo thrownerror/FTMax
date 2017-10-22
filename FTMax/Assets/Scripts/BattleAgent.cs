@@ -33,7 +33,7 @@ public class BattleAgent : MonoBehaviour {
     public bool moving;
     public float lerpSpeed;
 
-    private List<MoveInstruct> moveList;
+    public List<MoveInstruct> moveList;
 
     public void Start () {
         moveList = new List<MoveInstruct>();

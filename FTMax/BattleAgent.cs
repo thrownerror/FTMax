@@ -18,7 +18,7 @@ public class BattleAgent : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		//0
 	}
     public void SetDesiredNode(Node _desiredNode) {
         desiredNode = _desiredNode;

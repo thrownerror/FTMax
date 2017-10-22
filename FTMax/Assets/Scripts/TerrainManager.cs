@@ -139,6 +139,34 @@ public class TerrainManager : Singleton<TerrainManager> {
         }
     }
 
+    public List<EnemyAgent> GenerateEnemy(int numEnemies)
+    {
+        List<EnemyAgent> enemies = new List<EnemyAgent>();
+
+        for (int i = 0; i < numEnemies; i++)
+        {
+            bool enemyPlaced = false;
+            while (!enemyPlaced)
+            {
+                int x = Random.Range(0, length - 1);
+                int z = Random.Range(0, width - 1);
+
+                if (terrain[x, z].Occupants.Count == 0)
+                {
+                    GameObject enemy = Instantiate(prefabs[3], terrain[x, z].transform.position, Quaternion.identity);
+
+                    terrain[x, z].isTraversable = false;
+                    terrain[x, z].Occupants.Add(enemy.GetComponent<BattleAgent>());
+                    enemy.GetComponent<BattleAgent>().gridPos = terrain[x, z];
+                    enemies.Add(enemy.GetComponent<EnemyAgent>());
+                    enemyPlaced = true;
+                }
+            }
+        }
+
+        return enemies;
+    }
+
     /// <summary>
     /// Moves car Directly to desired node if node exists
     /// </summary>
