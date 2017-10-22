@@ -13,8 +13,12 @@ public class GameManager : MonoBehaviour {
     public bool playerWonBattle;
     private int playerHealth;
     //public GameObject gameEndText;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    private void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
+    void Start () {
         gameMode = "overworld";
         playerWonBattle = false;
 	}
@@ -35,6 +39,11 @@ public class GameManager : MonoBehaviour {
         float posZ = Random.Range(0.0f, 40f);
         enemyUnit.transform.position = new Vector3(posX, enemyUnit.transform.position.y, posZ);
     }
+
+    public void goToMain()
+    {
+        SceneManager.LoadScene("overworldScene");
+    }
     void toggleMode(){
         if(gameMode == "overworld"){
             gameMode = "battle";
@@ -53,7 +62,7 @@ public class GameManager : MonoBehaviour {
 
     public void enterBattle()
     {
-        SceneManager.LoadScene("testBattleScene", LoadSceneMode.Additive);
+        SceneManager.LoadScene("testBattleScene");
         
     }
 
