@@ -15,7 +15,8 @@ public class TerrainManager : Singleton<TerrainManager> {
     //Hidden Singleton Constructor
     protected TerrainManager() {}
 
-	public void Start () {
+
+    public void Start () {
         GenerateGrid();
         GenerateObstacles();
 	}

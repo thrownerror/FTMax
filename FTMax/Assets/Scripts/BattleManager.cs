@@ -33,12 +33,14 @@ public class BattleManager : Singleton<BattleManager>
     public int numEnemies = 1;
     public List<EnemyAgent> enemies;
     public bool hasPlayerGone = false;
-
+    private GameObject donkey;
     // Use this for initialization
     void Start()
     {
         TerrainManager.Instance.MoveAgentToNode(player, new Vector2(10, 2), true);
         enemies = TerrainManager.Instance.GenerateEnemy(numEnemies);
+        donkey = GameObject.FindGameObjectWithTag("donkey");
+        player.gameObject.GetComponent<PlayerBattle>().health = donkey.GetComponent<informationDonkey>().getPlayerHealth();
     }
 
     // Update is called once per frame
@@ -61,8 +63,17 @@ public class BattleManager : Singleton<BattleManager>
 
     public void CheckIfBattleOver()
     {
-        if(player.health <= 0)
+        if (player.health <= 0)
+        {
             battleState = BattleStates.EndBattle;
+            donkey.gameObject.GetComponent<informationDonkey>().setPlayerHealth(0);
+            donkey.gameObject.GetComponent<informationDonkey>().playerWon = false;
+            donkey.gameObject.GetComponent<informationDonkey>().goToOverworld();
+            //GameObject gm = GameObject.FindGameObjectWithTag("GameManager");
+            //gm.GetComponent<GameManager>().playerHealth = player.GetComponent<PlayerBattle>().health;
+            //gm.GetComponent<GameManager>().goToOverworld();
+            // GameObject donkey = Game
+        }
     }
 
     //Will get players action for that Turn

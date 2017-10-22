@@ -11,16 +11,23 @@ public class GameManager : MonoBehaviour {
     public GameObject battlePlayer;
     public GameObject enemyUnit;
     public bool playerWonBattle;
-    private int playerHealth;
+    public float playerHealth;
+    public static GameManager Instance;
+    GameObject donkey;
     //public GameObject gameEndText;
     // Use this for initialization
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+    //    if (Instance) { DontDestroyOnLoad(gameObject); }
+    //    else { DontDestroyOnLoad(gameObject); Instance = this; }
+        //DontDestroyOnLoad(this.gameObject);
     }
     void Start () {
+        donkey = GameObject.FindGameObjectWithTag("donkey");
+
         gameMode = "overworld";
         playerWonBattle = false;
+        overPlayer.GetComponent<PlayerOverworld>().health = donkey.GetComponent<informationDonkey>().getPlayerHealth();
 	}
 	
 	// Update is called once per frame
@@ -40,7 +47,7 @@ public class GameManager : MonoBehaviour {
         enemyUnit.transform.position = new Vector3(posX, enemyUnit.transform.position.y, posZ);
     }
 
-    public void goToMain()
+    public void goToOverworld()
     {
         SceneManager.LoadScene("overworldScene");
     }
@@ -57,13 +64,20 @@ public class GameManager : MonoBehaviour {
     {
         //overPlayer.health = battlePlayer.health;
     }
-
-
-
     public void enterBattle()
     {
         SceneManager.LoadScene("testBattleScene");
-        
+        //gm.GetComponent<GameManager>().playerHealth = player.GetComponent<PlayerBattle>().health;
+        //gm.GetComponent<GameManager>().goToOverworld();
+        //donkey.GetComponent<GameManager>().goToOverworld();
+        //donkey.GetComponent<informationDonkey>().enterBattle();
+        //donkey.GetComponent<information>
+        //donkey.GetComponent<>
+        donkey.gameObject.GetComponent<informationDonkey>().setPlayerHealth(overPlayer.GetComponent<PlayerOverworld>().health);
+        donkey.gameObject.GetComponent<informationDonkey>().enterBattle();
     }
+
+
+
 
 }
