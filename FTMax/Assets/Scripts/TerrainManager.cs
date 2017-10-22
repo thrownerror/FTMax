@@ -141,22 +141,46 @@ public class TerrainManager : Singleton<TerrainManager> {
             playerNode = terrain[x, z];
     }
 
-    public List<Node> MoveAgent(BattleAgent car, List<Vector2> moveList, bool isPlayer)
+    public List<MoveInstruct> MoveAgent(BattleAgent car, List<Vector3> moveList, bool isPlayer)
     {
         Node current = car.gridPos;
-        List<Node> moves = new List<Node>();
+        List<MoveInstruct> moves = new List<MoveInstruct>();
 
         for(int i =0; i < moveList.Count; i++) { 
-            int x = (int)(moveList[i].x * car.transform.forward.x);
-            int z = (int)(moveList[i].y * -car.transform.right.z);
+            int x = (int)(moveList[i].x);
+            int z = (int)(moveList[i].y);
 
-            if (!isValidMove(current.position + moveList[i]))
+            Vector3 localFwd = car.transform.forward;
+            Vector3 worldFwd = Vector3.forward; //Points right
+            Vector3 worldRight = Vector3.right; //Points up
+
+            if (localFwd.x < 0)
             {
-                Debug.LogError("INVALID MOVE! Car: " + car.name);
-                return new List<Node>();
+                z *= -1;
+                x *= -1;
+            }
+            if (localFwd.normalized.x == 0)
+            {
+                //We are moving vertically
+                int xCopy = x;
+                x = z;
+                z = xCopy;
+
+               if (localFwd.normalized.z < 0)
+                {
+                    //x *= -1;
+                    z *= -1;
+                }
+
             }
 
-            moves.Add(terrain[(int)current.position.x + x, (int)current.position.y + z]);
+            if (!isValidMove(current.position + new Vector2(x, z)))
+            {
+                Debug.LogError("INVALID MOVE! Car: " + car.name);
+                return new List<MoveInstruct>();
+            }
+
+            moves.Add(new MoveInstruct(terrain[(int)current.position.x + x, (int)current.position.y + z], moveList[i].z));
             current = terrain[(int)current.position.x + x, (int)current.position.y + z];
         }
         return  moves;
