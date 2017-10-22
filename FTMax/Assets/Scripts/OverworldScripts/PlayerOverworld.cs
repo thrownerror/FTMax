@@ -7,7 +7,7 @@ public class PlayerOverworld : AgentOverworld
     public Rigidbody rb;
     float angle;
     public GameObject gM;
-    private float health;
+    public float health;
     public GameObject cam;
     public int invulnFrames;
     public int enemiesKilled;
