@@ -50,7 +50,6 @@ public class BattleAgent : MonoBehaviour {
     }
     public void RequestMoveAction(int _action)
     {
-        print("Request move");
         List<Vector3> requestedMoveList = new List<Vector3>();
         switch (_action)
         {
@@ -153,9 +152,7 @@ public class BattleAgent : MonoBehaviour {
    
     public void LerpToNextNode() {
         //print("lerpiin");
-        Debug.Log(transform.forward);
         if (moveList.Count != 0) {
-            print("lerpiin");
             transform.position = new Vector3(moveList[0].node.transform.position.x, 0, moveList[0].node.transform.position.z);
             //if ((gridPos.position.x < moveList[0].node.position.x && transform.forward.normalized.x < 0) || (gridPos.position.x > moveList[0].node.position.x && transform.forward.normalized.x > 0))
             //{
@@ -194,24 +191,18 @@ public class BattleAgent : MonoBehaviour {
     }
 
     #region Health and Saftey
-    public void RegisterCollision(BattleAgent _other) {
+    public MoveInstruct RegisterCollision(BattleAgent _other) {
         //For now, count all collisions as the same
-        TakeDamage(10 + _other.speed);
-        speed--;
-
-        //Bounce back one space
-    }
-
-    public void RegisterCollision(Obstacle _obstacle) {
-        //5 * speed
-        TakeDamage(5 * speed);
-        speed--;
-
-        /*if(_obstacle.) {
-
+        if(_other is Obstacle) {
+            TakeDamage(10 + _other.speed);
+            speed--;
         } else {
+            TakeDamage(5 + _other.speed);
+            speed--;
+        }
 
-        }*/
+        return new MoveInstruct(TerrainManager.Instance.terrain[
+        (int)gridPos.position.x - (int)(transform.forward.normalized.x), (int)gridPos.position.y - (int)(transform.forward.normalized.y)], 0);
     }
 
     public void TakeDamage(float _damage) {
@@ -222,7 +213,7 @@ public class BattleAgent : MonoBehaviour {
         }
     }
     private void Die() {
-        GameObject.Destroy(gameObject);
+       //GameObject.Destroy(gameObject);
     }
     #endregion
 }

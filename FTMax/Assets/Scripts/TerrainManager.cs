@@ -133,6 +133,7 @@ public class TerrainManager : Singleton<TerrainManager> {
 
                     terrain[x, z].isTraversable = false;
                     terrain[x, z].Occupants.Add(rock.GetComponent<BattleAgent>());
+                    rock.GetComponent<BattleAgent>().gridPos = terrain[x, z];
                     rockPlaced = true;
                 }
             }
@@ -197,6 +198,10 @@ public class TerrainManager : Singleton<TerrainManager> {
     public List<MoveInstruct> MoveAgent(BattleAgent car, List<Vector3> moveList, bool isPlayer)
     {
         Node current = car.gridPos;
+
+        //Check for collision
+        
+
         List<MoveInstruct> moves = new List<MoveInstruct>();
 
         for(int i =0; i < moveList.Count; i++) { 
@@ -233,12 +238,36 @@ public class TerrainManager : Singleton<TerrainManager> {
 
             if (!isValidMove(current.position + new Vector2(x, z)))
             {
-                Debug.LogError("INVALID MOVE! Car: " + car.name);
+                Debug.Log("INVALID MOVE! Car: " + car.name);
                 return new List<MoveInstruct>();
             }
 
             moves.Add(new MoveInstruct(terrain[(int)current.position.x + x, (int)current.position.y + z], moveList[i].z));
             current = terrain[(int)current.position.x + x, (int)current.position.y + z];
+
+            //Checks for collisions on the node the car is trying to move onto
+            //If there is a collision, it resolves the collision for the collided upon object 
+            //then resolves the collision for the car attempting to move into the space and sends a move order
+            //that that car for the knockback (calculated in BattleAgent)
+
+            if (current.Occupants.Count > 0) {
+                if (current.Occupants[0] != car) {
+                    print("Node occupants: " + current.Occupants.Count);
+                    if (CheckCollsion(current, car)) {
+                        print("Found collision");
+                        //Do not tell obstacles that they've been hit
+                        //if(!(current.Occupants[0] is Obstacle)) { ResolveCollision(current.Occupants[0], car); }
+
+                        //Tell the car how to knockback
+                        moves.Add(ResolveCollision(car, current.Occupants[0]));
+                        //print("Resolving collision: " + );
+                        current = terrain[(int)current.position.x + (int)(current.position.x - moves[0].node.position.x), (int)(current.position.y - moves[0].node.position.y)];
+
+                        //Skip the rest of the movement
+                        return moves;
+                    }
+                }
+            }
         }
         return  moves;
     }
@@ -253,12 +282,18 @@ public class TerrainManager : Singleton<TerrainManager> {
             return true;
     }
 
-    public bool CheckForCollision(Node desiredLocation)
-    {
-        if (desiredLocation.isTraversable)
-            return false;
-        else
+    public bool CheckCollsion(Node _node, BattleAgent _agent) {
+        if(_node.Occupants.Count > 0) {
+            
+
             return true;
+        }
+
+        return false;
+    }
+
+    public MoveInstruct ResolveCollision(BattleAgent _agent1, BattleAgent _agent2) {
+        return _agent1.RegisterCollision(_agent2);
     }
 
 }
