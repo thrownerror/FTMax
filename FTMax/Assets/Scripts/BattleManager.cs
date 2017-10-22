@@ -44,14 +44,12 @@ public class BattleManager : Singleton<BattleManager>
     // Update is called once per frame
     void Update()
     {
-
-        while (battleState != BattleStates.EndBattle)
+        if (hasPlayerGone)
         {
-            GetPlayerAction();
             GetAIAction();
-
-            CheckIfBattleOver();
+            hasPlayerGone = false;
         }
+        CheckIfBattleOver();
     }
 
     //Will Take in a Player, And a Enemy Car, + data about collision (not sure what this ) returns array of vector to for resolution
@@ -63,8 +61,8 @@ public class BattleManager : Singleton<BattleManager>
 
     public void CheckIfBattleOver()
     {
-
-        battleState = BattleStates.EndBattle;
+        if(player.health <= 0)
+            battleState = BattleStates.EndBattle;
     }
 
     //Will get players action for that Turn
