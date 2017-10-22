@@ -23,16 +23,22 @@ public enum Actions
     LANE_SHIFT_RIGHT
 }
 
-public class BattleManager : MonoBehaviour
+public class BattleManager : Singleton<BattleManager>
 {
+    protected BattleManager() { }
+
     //Attributes
     public BattleStates battleState;
     public PlayerBattle player;
+    public int numEnemies = 1;
+    public List<EnemyAgent> enemies;
+    public bool hasPlayerGone = false;
 
     // Use this for initialization
     void Start()
     {
         TerrainManager.Instance.MoveAgentToNode(player, new Vector2(10, 2), true);
+        enemies = TerrainManager.Instance.GenerateEnemy(numEnemies);
     }
 
     // Update is called once per frame
@@ -41,9 +47,8 @@ public class BattleManager : MonoBehaviour
 
         while (battleState != BattleStates.EndBattle)
         {
-            Actions playerAct = GetPlayerAction();
-            Actions enemyAction = GetAIAction();
-
+            GetPlayerAction();
+            GetAIAction();
 
             CheckIfBattleOver();
         }
@@ -63,14 +68,16 @@ public class BattleManager : MonoBehaviour
     }
 
     //Will get players action for that Turn
-    public Actions GetPlayerAction()
+    public void GetPlayerAction()
     {
-        return Actions.GO_FORWARD;
     }
 
-    public Actions GetAIAction()
+    public void GetAIAction()
     {
-        return Actions.SLOW_DOWN;
+        foreach(EnemyAgent enemy in enemies)
+        {
+            enemy.GenerateMove();
+        }
     }
 }
 

@@ -27,10 +27,6 @@ public class BattleCamera : MonoBehaviour {
     }
 
     void MoveCamera() {
-        /*if() {
-
-        }*/
-
         desiredCamVelocity = (target.transform.position - transform.position) * camMoveSpeed * ((target.transform.position - transform.position).magnitude);
         transform.position = new Vector3(desiredCamVelocity.x + transform.position.x, transform.position.y, transform.position.z);
     }

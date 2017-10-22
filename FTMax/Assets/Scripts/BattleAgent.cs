@@ -33,7 +33,7 @@ public class BattleAgent : MonoBehaviour {
     public bool moving;
     public float lerpSpeed;
 
-    private List<MoveInstruct> moveList;
+    public List<MoveInstruct> moveList;
 
     public void Start () {
         moveList = new List<MoveInstruct>();
@@ -50,7 +50,6 @@ public class BattleAgent : MonoBehaviour {
     }
     public void RequestMoveAction(int _action)
     {
-        print("Request move");
         List<Vector3> requestedMoveList = new List<Vector3>();
         switch (_action)
         {
@@ -125,6 +124,27 @@ public class BattleAgent : MonoBehaviour {
                     requestedMoveList.Add(Action.laneShiftRight[i]);
                 }
                 break;
+
+            case (int)Action.Actions.KNOCKBACK_BACKWARD:
+                for (int i = 0; i < Action.knockbackBackward.Length; i++) {
+                    requestedMoveList.Add(Action.knockbackBackward[i]);
+                }
+                break;
+            case (int)Action.Actions.KNOCKBACK_LEFT:
+                for (int i = 0; i < Action.knockbackLeft.Length; i++) {
+                    requestedMoveList.Add(Action.knockbackLeft[i]);
+                }
+                break;
+            case (int)Action.Actions.KNOCKBACK_RIGHT:
+                for (int i = 0; i < Action.knockbackRight.Length; i++) {
+                    requestedMoveList.Add(Action.knockbackRight[i]);
+                }
+                break;
+            case (int)Action.Actions.KNOCKBACK_FORWARD:
+                for (int i = 0; i < Action.knockbackForward.Length; i++) {
+                    requestedMoveList.Add(Action.knockbackForward[i]);
+                }
+                break;
         }
         moveList = TerrainManager.Instance.MoveAgent(this, requestedMoveList, true);
 
@@ -132,9 +152,7 @@ public class BattleAgent : MonoBehaviour {
    
     public void LerpToNextNode() {
         //print("lerpiin");
-        Debug.Log(transform.forward);
         if (moveList.Count != 0) {
-            print("lerpiin");
             transform.position = new Vector3(moveList[0].node.transform.position.x, 0, moveList[0].node.transform.position.z);
             //if ((gridPos.position.x < moveList[0].node.position.x && transform.forward.normalized.x < 0) || (gridPos.position.x > moveList[0].node.position.x && transform.forward.normalized.x > 0))
             //{
@@ -159,7 +177,6 @@ public class BattleAgent : MonoBehaviour {
 
     public void StartMove(List<Vector3> _nodeLocs) {
         moving = true;
-
     }
     public void Accelerate(Vector2 _accelVector) {
         velocity += _accelVector;
@@ -172,14 +189,31 @@ public class BattleAgent : MonoBehaviour {
     public void SetHealth(int _health) {
         health = _health;
     }
-   
-    void Rotate(Vector2 _dir) {
-        gridRot += _dir;
+
+    #region Health and Saftey
+    public MoveInstruct RegisterCollision(BattleAgent _other) {
+        //For now, count all collisions as the same
+        if(_other is Obstacle) {
+            TakeDamage(10 + _other.speed);
+            speed--;
+        } else {
+            TakeDamage(5 + _other.speed);
+            speed--;
+        }
+
+        return new MoveInstruct(TerrainManager.Instance.terrain[
+        (int)gridPos.position.x - (int)(transform.forward.normalized.x), (int)gridPos.position.y - (int)(transform.forward.normalized.z)], 0);
     }
-    public void LeftTurn() {
-        Rotate(new Vector2(0, -90));
+
+    public void TakeDamage(float _damage) {
+        health -= _damage;
+
+        if (health <= 0) {
+            Die();
+        }
     }
-    public void RightTurn() {
-        Rotate(new Vector2(0, 90));
+    private void Die() {
+       //GameObject.Destroy(gameObject);
     }
+    #endregion
 }

@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour {
+public class UIManager : Singleton<UIManager> {
+    //hidden constructor
+    protected UIManager() { }
+
     public BattleAgent selectedAgent;
 
     //Text values for now
@@ -24,5 +27,10 @@ public class UIManager : MonoBehaviour {
             selectedAgentHeatText.text = "Heat: " + selectedAgent.heat;
             selectedAgentSpeedText.text = "Speed: " + selectedAgent.speed;
         }
+    }
+
+    void GetPlayerInput()
+    {
+
     }
 }
