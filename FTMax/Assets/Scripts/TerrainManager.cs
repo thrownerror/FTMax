@@ -10,12 +10,14 @@ public class TerrainManager : Singleton<TerrainManager> {
     public GameObject[] prefabs;
     public int width = 4; //z axis of grid
     public int length = 20; //x axis of grid
-    
+    public int numRocks = 3;
+
     //Hidden Singleton Constructor
     protected TerrainManager() {}
 
 	public void Start () {
         GenerateGrid();
+        GenerateObstacles();
 	}
 	
 	void Update () {
@@ -114,6 +116,29 @@ public class TerrainManager : Singleton<TerrainManager> {
         }
     }
 
+    public void GenerateObstacles()
+    {
+        //Rocks
+        for(int i = 0; i < numRocks; i++)
+        {
+            bool rockPlaced = false;
+            while (!rockPlaced)
+            {
+                int x = Random.Range(0, length - 1);
+                int z = Random.Range(0, width - 1);
+
+                if (terrain[x, z].Occupants.Count == 0)
+                {
+                    GameObject rock = Instantiate(prefabs[2], terrain[x, z].transform.position,Quaternion.identity);
+
+                    terrain[x, z].isTraversable = false;
+                    terrain[x, z].Occupants.Add(rock.GetComponent<BattleAgent>());
+                    rockPlaced = true;
+                }
+            }
+        }
+    }
+
     /// <summary>
     /// Moves car Directly to desired node if node exists
     /// </summary>
@@ -207,4 +232,5 @@ public class TerrainManager : Singleton<TerrainManager> {
         else
             return true;
     }
+
 }
