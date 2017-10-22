@@ -21,6 +21,7 @@ public class UIManager : Singleton<UIManager> {
 	void Update () {
         UpdateStatusPane();
     }
+
     void UpdateStatusPane() {
         if(selectedAgent != null) {
             selectedAgentHealthText.text = "Health: " +  selectedAgent.health;
@@ -29,8 +30,9 @@ public class UIManager : Singleton<UIManager> {
         }
     }
 
-    void GetPlayerInput()
+    public void GetPlayerInput(int action)
     {
-
+        BattleManager.Instance.hasPlayerGone = true;
+        selectedAgent.RequestMoveAction(action);
     }
 }
