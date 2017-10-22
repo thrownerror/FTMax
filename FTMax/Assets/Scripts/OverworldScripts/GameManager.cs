@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour {
     public GameObject enemyUnit;
     public bool playerWonBattle;
     private int playerHealth;
-
+    //public GameObject gameEndText;
 	// Use this for initialization
 	void Start () {
         gameMode = "overworld";

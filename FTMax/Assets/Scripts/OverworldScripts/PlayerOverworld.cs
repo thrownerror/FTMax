@@ -13,6 +13,7 @@ public class PlayerOverworld : AgentOverworld
     public int enemiesKilled;
     public GameObject enemyText;
     public GameObject healthText;
+    public GameObject gameEndText;
     public PlayerOverworld():base("player", .01f, .03f, .5f)
     {
         //debug.log("player constructor called");
@@ -32,6 +33,10 @@ public class PlayerOverworld : AgentOverworld
 	// Update is called once per frame
     void Update()
     {
+        if(health <= 0)
+        {
+            gameEndText.GetComponent<Text>().text = "GAME OVER";
+        }
         healthText.GetComponent<Text>().text = "Health: " + health;
         enemyText.GetComponent<Text>().text = "Bandits Killed: " + enemiesKilled;
 
