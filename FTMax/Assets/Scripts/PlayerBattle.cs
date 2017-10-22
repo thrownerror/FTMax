@@ -20,5 +20,10 @@ public class PlayerBattle : BattleAgent {
     void Move(Node _newPos, Vector2 _rotation, int spaces) {
 
     }
-
+    protected override void Die()
+    {
+        // base.Die();
+        health = 0;
+        BattleManager.Instance.CheckIfBattleOver();
+    }
 }

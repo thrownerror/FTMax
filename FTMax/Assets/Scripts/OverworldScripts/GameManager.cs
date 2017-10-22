@@ -32,7 +32,11 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        if (donkey.GetComponent<informationDonkey>().playerWon)
+        {
+            overPlayer.GetComponent<PlayerOverworld>().enemiesSlain(donkey.GetComponent<informationDonkey>().enemiesKilled);
+          //  donkey.GetComponent<informationDonkey>().playerWon = false;
+        }
 	}
     void winBattle()
     {

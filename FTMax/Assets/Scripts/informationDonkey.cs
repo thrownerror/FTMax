@@ -7,7 +7,7 @@ public class informationDonkey : MonoBehaviour {
     private float playerHealth = 50;
     public bool playerWon;
     public static bool created = false;
-
+    public int enemiesKilled = 0;
     private void Awake()
     {
         if (!created) { DontDestroyOnLoad(this.gameObject); created = true; }
@@ -21,7 +21,7 @@ public class informationDonkey : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
     public void setPlayerHealth(float health)
     {

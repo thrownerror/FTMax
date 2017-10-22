@@ -29,10 +29,14 @@ public class PlayerOverworld : AgentOverworld
         
         angle = 0;
 	}
-	
+	public void enemiesSlain(int kia)
+    {
+        enemiesKilled = kia;
+    }
 	// Update is called once per frame
     void Update()
     {
+        
         if(health <= 0)
         {
             gameEndText.GetComponent<Text>().text = "GAME OVER";
@@ -98,6 +102,7 @@ public class PlayerOverworld : AgentOverworld
         //toRotate += 
         rb.rotation = Quaternion.AngleAxis(angle, Vector3.up);
     }
+    
     protected void move(Vector3 mv)
     {
         mv.Normalize();
