@@ -41,10 +41,10 @@ public class BattleAgent : MonoBehaviour {
 	
 	public void Update() {
         //  Debug.Log(moveList.Count);
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            RequestMoveAction(0);
-        }
+       // if (Input.GetKeyDown(KeyCode.W))
+       // {
+        //    RequestMoveAction(0);
+        //}
        LerpToNextNode();
 
     }
@@ -220,7 +220,7 @@ public class BattleAgent : MonoBehaviour {
             Die();
         }
     }
-    private void Die() {
+    protected virtual void Die() {
        //GameObject.Destroy(gameObject);
     }
     #endregion

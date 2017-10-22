@@ -34,6 +34,8 @@ public class BattleManager : Singleton<BattleManager>
     public List<EnemyAgent> enemies;
     public bool hasPlayerGone = false;
     private GameObject donkey;
+    public bool enemyDestroyed = false;
+    public bool ranAway;
     // Use this for initialization
     void Start()
     {
@@ -73,6 +75,21 @@ public class BattleManager : Singleton<BattleManager>
             //gm.GetComponent<GameManager>().playerHealth = player.GetComponent<PlayerBattle>().health;
             //gm.GetComponent<GameManager>().goToOverworld();
             // GameObject donkey = Game
+        }
+        if (enemyDestroyed)
+        {
+            battleState = BattleStates.EndBattle;
+            donkey.gameObject.GetComponent<informationDonkey>().setPlayerHealth(player.GetComponent<PlayerBattle>().health);
+            donkey.gameObject.GetComponent<informationDonkey>().playerWon = true;
+            donkey.gameObject.GetComponent<informationDonkey>().enemiesKilled++;
+            donkey.gameObject.GetComponent<informationDonkey>().goToOverworld();
+        }
+        if (player.gridPos.position.x == 0 || player.gridPos.position.x == TerrainManager.Instance.length - 1)
+        {
+            donkey.gameObject.GetComponent<informationDonkey>().setPlayerHealth(player.GetComponent<PlayerBattle>().health);
+            battleState = BattleStates.EndBattle;
+            donkey.gameObject.GetComponent<informationDonkey>().goToOverworld();
+
         }
     }
 

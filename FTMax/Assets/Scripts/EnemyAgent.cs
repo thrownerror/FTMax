@@ -90,4 +90,13 @@ public class EnemyAgent : BattleAgent {
         }
 
     }
+    protected override void Die()
+    {
+        //base.Die();
+        GameObject.Destroy(gameObject);
+        Debug.Log("oh noes, I died");
+        BattleManager.Instance.enemyDestroyed = true;
+
+    }
+
 }
