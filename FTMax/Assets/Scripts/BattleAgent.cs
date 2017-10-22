@@ -202,7 +202,7 @@ public class BattleAgent : MonoBehaviour {
         }
 
         return new MoveInstruct(TerrainManager.Instance.terrain[
-        (int)gridPos.position.x - (int)(transform.forward.normalized.x), (int)gridPos.position.y - (int)(transform.forward.normalized.y)], 0);
+        (int)gridPos.position.x - (int)(transform.forward.normalized.x), (int)gridPos.position.y - (int)(transform.forward.normalized.z)], 0);
     }
 
     public void TakeDamage(float _damage) {
