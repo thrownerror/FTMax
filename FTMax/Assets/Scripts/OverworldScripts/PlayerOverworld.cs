@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class PlayerOverworld : AgentOverworld
 {
     public Rigidbody rb;
@@ -9,6 +9,10 @@ public class PlayerOverworld : AgentOverworld
     public GameObject gM;
     private float health;
     public GameObject cam;
+    public int invulnFrames;
+    public int enemiesKilled;
+    public GameObject enemyText;
+    public GameObject healthText;
     public PlayerOverworld():base("player", .01f, .03f, .5f)
     {
         //debug.log("player constructor called");
@@ -16,16 +20,30 @@ public class PlayerOverworld : AgentOverworld
     }
 	// Use this for initialization
 	void Start () {
-        health = 100;
+        health = 50;
         // base("player", .01f, .03f, .5f);
         base.setProperties("player", .03f, .03f, .2f);
         rb = GetComponent<Rigidbody>();
+        enemiesKilled = 0;
+        
         angle = 0;
 	}
 	
 	// Update is called once per frame
     void Update()
     {
+        healthText.GetComponent<Text>().text = "Health: " + health;
+        enemyText.GetComponent<Text>().text = "Bandits Killed: " + enemiesKilled;
+
+        //healthText = healthText.GetComponent<Text>();
+        //healthText.text = "Health: " + health;
+        //healthText.GetComponent<TextAlignmen
+        //enemyText = enemyText.GetComponent<Text>();
+        //enemyText.text = "Bandits slain: " + enemiesKilled;
+        if (invulnFrames > 0)
+        {
+            invulnFrames--;
+        }
         //Debug("pls");
        // Vector3 oldPos = this.transform.position;
         Vector3 moveDir = new Vector3(0, 0, 0);
@@ -88,7 +106,6 @@ public class PlayerOverworld : AgentOverworld
     }
     private void OnCollisionEnter(Collision collision)
     {
-        rb.velocity = Vector3.ClampMagnitude(rb.velocity/5, base.maxSpeed);
         cam.GetComponent<CameraScript>().startShake();
         Debug.Log(collision.gameObject);
         if (collision.gameObject.tag == "enemy")
@@ -97,7 +114,20 @@ public class PlayerOverworld : AgentOverworld
         }
         if (collision.gameObject.tag == "obstacle")
         {
-            health -= 10;
-        }        
+            if (invulnFrames == 0)
+            {
+                health -= 5;
+                Debug.Log(health);
+                invulnFrames = 30;
+            }
+        }
+        if(collision.gameObject.tag == "settlement")
+        {
+            health = 50;
+            Debug.Log(health);
+            gM.GetComponent<GameManager>().resetBattle();
+        }
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity / 5, base.maxSpeed);
+
     }
 }

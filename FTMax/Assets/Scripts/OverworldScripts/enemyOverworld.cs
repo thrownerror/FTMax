@@ -6,7 +6,7 @@ public class enemyOverworld : AgentOverworld
 {
     float angle;
     public Rigidbody rb;
-
+    public int health = 25;
     public enemyOverworld() //:// base("player", .01f, .03f, .5f)
     {
         //debug.log("player constructor called");
@@ -17,7 +17,7 @@ public class enemyOverworld : AgentOverworld
     {
         angle = 0;
         // base("player", .01f, .03f, .5f);
-        base.setProperties("enemy", 0.1f, .02f, .5f);
+        base.setProperties("enemy", 0.1f, .015f, .3f);
     }
     protected void move(Vector3 mv)
     {
@@ -32,12 +32,28 @@ public class enemyOverworld : AgentOverworld
         move();
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+       // cam.GetComponent<CameraScript>().startShake();
+        Debug.Log(collision.gameObject);
+        if (collision.gameObject.tag == "enemy")
+        {
+           // gM.GetComponent<GameManager>().enterBattle();
+        }
+        if (collision.gameObject.tag == "obstacle")
+        {
+            health -= 5;
+           // Debug.Log(health);
+        }
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity / 5, base.maxSpeed);
+
+    }
     void move()
     {
         Vector3 moveDir = new Vector3(0, 0, 0);
         
         int random = (int)Random.Range(0f, 5.999f);
-        Debug.Log(random);
+      //  Debug.Log(random);
         switch (random)
         {
             case 0:
