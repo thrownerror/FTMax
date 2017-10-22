@@ -32,7 +32,7 @@ public class BattleAgent : MonoBehaviour {
     public Node desiredNode;
     public bool moving;
     public float lerpSpeed;
-
+    private bool firstStart= true;
     public List<MoveInstruct> moveList;
 
     public void Start () {
@@ -156,14 +156,30 @@ public class BattleAgent : MonoBehaviour {
     public void LerpToNextNode() {
         //print("lerpiin");
         if (moveList.Count != 0) {
-            transform.position = new Vector3(moveList[0].node.transform.position.x, 0, moveList[0].node.transform.position.z);
+            if (firstStart)
+            {
+                transform.Rotate(Vector3.up, moveList[0].rotate);
+                firstStart = false;
+            }
+            float journeyLength = Vector3.Distance(transform.position,moveList[0].node.transform.position);
 
+            float distCovered = Time.deltaTime * 1;
+            float fracJourny = distCovered / journeyLength;
+            transform.position = Vector3.Lerp(transform.position, moveList[0].node.transform.position, fracJourny);
+            
+            
+            
+            // transform.position = new Vector3(moveList[0].node.transform.position.x, 0, moveList[0].node.transform.position.z);
 
-            transform.Rotate(Vector3.up, moveList[0].rotate);
-            gridPos.Occupants.Remove(this);
-            gridPos = moveList[0].node;
-            gridPos.Occupants.Add(this);
-            moveList.Remove(moveList[0]);
+            if (transform.position == moveList[0].node.transform.position)
+            {
+               // transform.Rotate(Vector3.up, moveList[0].rotate);
+                gridPos.Occupants.Remove(this);
+                gridPos = moveList[0].node;
+                gridPos.Occupants.Add(this);
+                moveList.Remove(moveList[0]);
+                firstStart = true;
+            }
         }
     }
 
@@ -194,7 +210,7 @@ public class BattleAgent : MonoBehaviour {
         }
 
         return new MoveInstruct(TerrainManager.Instance.terrain[
-        (int)gridPos.position.x - (int)(transform.forward.normalized.x), (int)gridPos.position.y - (int)(transform.forward.normalized.z)], 0);
+        Mathf.Abs((int)gridPos.position.x - (int)(transform.forward.normalized.x)), Mathf.Abs((int)gridPos.position.y - (int)(transform.forward.normalized.z))], 0);
     }
 
     public void TakeDamage(float _damage) {
