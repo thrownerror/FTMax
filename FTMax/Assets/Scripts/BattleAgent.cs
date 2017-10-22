@@ -125,6 +125,27 @@ public class BattleAgent : MonoBehaviour {
                     requestedMoveList.Add(Action.laneShiftRight[i]);
                 }
                 break;
+
+            case (int)Action.Actions.KNOCKBACK_BACKWARD:
+                for (int i = 0; i < Action.knockbackBackward.Length; i++) {
+                    requestedMoveList.Add(Action.knockbackBackward[i]);
+                }
+                break;
+            case (int)Action.Actions.KNOCKBACK_LEFT:
+                for (int i = 0; i < Action.knockbackLeft.Length; i++) {
+                    requestedMoveList.Add(Action.knockbackLeft[i]);
+                }
+                break;
+            case (int)Action.Actions.KNOCKBACK_RIGHT:
+                for (int i = 0; i < Action.knockbackRight.Length; i++) {
+                    requestedMoveList.Add(Action.knockbackRight[i]);
+                }
+                break;
+            case (int)Action.Actions.KNOCKBACK_FORWARD:
+                for (int i = 0; i < Action.knockbackForward.Length; i++) {
+                    requestedMoveList.Add(Action.knockbackForward[i]);
+                }
+                break;
         }
         moveList = TerrainManager.Instance.MoveAgent(this, requestedMoveList, true);
 
@@ -159,7 +180,6 @@ public class BattleAgent : MonoBehaviour {
 
     public void StartMove(List<Vector3> _nodeLocs) {
         moving = true;
-
     }
     public void Accelerate(Vector2 _accelVector) {
         velocity += _accelVector;
@@ -172,14 +192,37 @@ public class BattleAgent : MonoBehaviour {
     public void SetHealth(int _health) {
         health = _health;
     }
-   
-    void Rotate(Vector2 _dir) {
-        gridRot += _dir;
+
+    #region Health and Saftey
+    public void RegisterCollision(BattleAgent _other) {
+        //For now, count all collisions as the same
+        TakeDamage(10 + _other.speed);
+        speed--;
+
+        //Bounce back one space
     }
-    public void LeftTurn() {
-        Rotate(new Vector2(0, -90));
+
+    public void RegisterCollision(Obstacle _obstacle) {
+        //5 * speed
+        TakeDamage(5 * speed);
+        speed--;
+
+        /*if(_obstacle.) {
+
+        } else {
+
+        }*/
     }
-    public void RightTurn() {
-        Rotate(new Vector2(0, 90));
+
+    public void TakeDamage(float _damage) {
+        health -= _damage;
+
+        if (health <= 0) {
+            Die();
+        }
     }
+    private void Die() {
+        GameObject.Destroy(gameObject);
+    }
+    #endregion
 }

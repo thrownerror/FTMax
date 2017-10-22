@@ -15,7 +15,13 @@ public class Action {
         HAIRPIN_LEFT=5,
         HAIRPIN_RIGHT=6,
         LANE_SHIFT_LEFT=7,
-        LANE_SHIFT_RIGHT=8
+        LANE_SHIFT_RIGHT=8,
+
+        //Knockbacks
+        KNOCKBACK_RIGHT = 9,
+        KNOCKBACK_LEFT = 10,
+        KNOCKBACK_FORWARD = 11,
+        KNOCKBACK_BACKWARD = 12
     }
     
 
@@ -27,4 +33,11 @@ public class Action {
     public static Vector3[] hairpinLeft = { new Vector3(1, 0 ,0), new Vector3(0, 1 , -90), new Vector3(-1, 0, -90) };
     public static Vector3[] laneShiftRight = { new Vector3(0, -1, 0) };
     public static Vector3[] laneShiftLeft = { new Vector3(0, 1 , 0) };
+
+    public static Vector3[] knockbackLeft = { new Vector3(0, -1, 0) };
+    public static Vector3[] knockbackRight = { new Vector3(0, 1, 0) };
+    public static Vector3[] knockbackForward = { new Vector3(1, 0, 0) };
+    public static Vector3[] knockbackBackward = { new Vector3(-1, 0, 0) };
+
+
 }
