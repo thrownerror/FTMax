@@ -261,7 +261,7 @@ public class TerrainManager : Singleton<TerrainManager> {
                         //Tell the car how to knockback
                         moves.Add(ResolveCollision(car, current.Occupants[0]));
                         //print("Resolving collision: " + );
-                        current = terrain[(int)current.position.x + (int)(current.position.x - moves[0].node.position.x), (int)(current.position.y - moves[0].node.position.y)];
+                        current = terrain[Mathf.Abs((int)current.position.x + (int)(current.position.x - moves[0].node.position.x)), Mathf.Abs((int)(current.position.y - moves[0].node.position.y))];
 
                         //Skip the rest of the movement
                         return moves;

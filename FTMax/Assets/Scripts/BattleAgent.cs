@@ -82,7 +82,7 @@ public class BattleAgent : MonoBehaviour {
                 break;
 
             case (int)Action.Actions.SLOW_DOWN:
-                if(speed == 0)
+                if (speed <= 0)
                 {
                     for (int i = 0; i < Action.reverse.Length; i++)
                     {
@@ -90,10 +90,13 @@ public class BattleAgent : MonoBehaviour {
                     }
                     break;
                 }
-                speed--;
-                for (int i = 0; i < Action.moveForward.Length; i++)
+                else
                 {
-                    requestedMoveList.Add(Action.moveForward[i]);
+                    speed--;
+                    for (int i = 0; i < Action.moveForward.Length; i++)
+                    {
+                        requestedMoveList.Add(Action.moveForward[i]);
+                    }
                 }
                 break;
 
@@ -154,23 +157,12 @@ public class BattleAgent : MonoBehaviour {
         //print("lerpiin");
         if (moveList.Count != 0) {
             transform.position = new Vector3(moveList[0].node.transform.position.x, 0, moveList[0].node.transform.position.z);
-            //if ((gridPos.position.x < moveList[0].node.position.x && transform.forward.normalized.x < 0) || (gridPos.position.x > moveList[0].node.position.x && transform.forward.normalized.x > 0))
-            //{
-            //    transform.Rotate(Vector3.up, 180);
-            //}
 
-            ////Rotate Right
-            //if(gridPos.position.y > moveList[0].node.position.y)
-            //{
-            //    transform.Rotate(Vector3.up, 90);
-            //}
-            //else if(gridPos.position.y > moveList[0].node.position.y)
-            //{
-            //    transform.Rotate(Vector3.up, -90);
-            //}
 
             transform.Rotate(Vector3.up, moveList[0].rotate);
+            gridPos.Occupants.Remove(this);
             gridPos = moveList[0].node;
+            gridPos.Occupants.Add(this);
             moveList.Remove(moveList[0]);
         }
     }
