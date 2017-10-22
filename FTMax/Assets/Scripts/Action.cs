@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Action {
 
     public enum Actions
@@ -16,11 +17,14 @@ public class Action {
         LANE_SHIFT_LEFT=7,
         LANE_SHIFT_RIGHT=8
     }
-    public static Vector2[] moveForward = { new Vector2(1,0) };
-    public static Vector2[] turnRight = { new Vector2(1, 0), new Vector2(0,-1) };
-    public static Vector2[] turnLeft = { new Vector2(1, 0), new Vector2(0, 1) };
-    public static Vector2[] hairpinRight = { new Vector2(1, 0), new Vector2(0, -1), new Vector3(-1, 0) };
-    public static Vector2[] hairpinLeft = { new Vector2(1, 0), new Vector2(0, 1), new Vector3(-1, 0) };
-    public static Vector2[] laneShiftRight = { new Vector2(0, -1) };
-    public static Vector2[] laneShiftLeft = { new Vector2(0, 1) };
+    
+
+    public static Vector3[] moveForward = { new Vector3(1, 0, 0) };
+    public static Vector3[] reverse = { new Vector3(-1, 0, 0) };
+    public static Vector3[] turnRight = { new Vector3(1, 0, 0), new Vector3(0,-1, 90) };
+    public static Vector3[] turnLeft = { new Vector3(1, 0, 0), new Vector3(0, 1, -90) };
+    public static Vector3[] hairpinRight = { new Vector3(1, 0, 0), new Vector3(0, -1, 90), new Vector3(-1, 0, 90) };
+    public static Vector3[] hairpinLeft = { new Vector3(1, 0 ,0), new Vector3(0, 1 , -90), new Vector3(-1, 0, -90) };
+    public static Vector3[] laneShiftRight = { new Vector3(0, -1, 0) };
+    public static Vector3[] laneShiftLeft = { new Vector3(0, 1 , 0) };
 }

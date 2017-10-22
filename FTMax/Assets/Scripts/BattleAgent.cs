@@ -2,6 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public struct MoveInstruct
+{
+    public Node node;
+    public float rotate;
+
+    public MoveInstruct(Node node, float z) : this()
+    {
+        this.node = node;
+        rotate = z;
+    }
+}
 public class BattleAgent : MonoBehaviour {
 
     public Node gridPos;
@@ -22,10 +33,10 @@ public class BattleAgent : MonoBehaviour {
     public bool moving;
     public float lerpSpeed;
 
-    private List<Node> moveList;
+    private List<MoveInstruct> moveList;
 
     public void Start () {
-        moveList = new List<Node>();
+        moveList = new List<MoveInstruct>();
     }
 	
 	public void Update() {
@@ -40,7 +51,7 @@ public class BattleAgent : MonoBehaviour {
     public void RequestMoveAction(int _action)
     {
         print("Request move");
-        List<Vector2> requestedMoveList = new List<Vector2>();
+        List<Vector3> requestedMoveList = new List<Vector3>();
         switch (_action)
         {
             case (int)Action.Actions.GO_FORWARD:
@@ -72,6 +83,14 @@ public class BattleAgent : MonoBehaviour {
                 break;
 
             case (int)Action.Actions.SLOW_DOWN:
+                if(speed == 0)
+                {
+                    for (int i = 0; i < Action.reverse.Length; i++)
+                    {
+                        requestedMoveList.Add(Action.reverse[i]);
+                    }
+                    break;
+                }
                 speed--;
                 for (int i = 0; i < Action.moveForward.Length; i++)
                 {
@@ -113,32 +132,27 @@ public class BattleAgent : MonoBehaviour {
    
     public void LerpToNextNode() {
         //print("lerpiin");
-        
+        Debug.Log(transform.forward);
         if (moveList.Count != 0) {
             print("lerpiin");
-            transform.position = new Vector3(moveList[0].transform.position.x, 0, moveList[0].transform.position.z);
-            if ((gridPos.position.x < moveList[0].position.x && transform.forward.normalized.x < 0) || (gridPos.position.x > moveList[0].position.x && transform.forward.normalized.x > 0))
-            {
-                transform.Rotate(Vector3.up, 180);
-            }
-            //if (gridPos.position.y < moveList[0].position.y && transform.right.z < 0 )
+            transform.position = new Vector3(moveList[0].node.transform.position.x, 0, moveList[0].node.transform.position.z);
+            //if ((gridPos.position.x < moveList[0].node.position.x && transform.forward.normalized.x < 0) || (gridPos.position.x > moveList[0].node.position.x && transform.forward.normalized.x > 0))
+            //{
+            //    transform.Rotate(Vector3.up, 180);
+            //}
+
+            ////Rotate Right
+            //if(gridPos.position.y > moveList[0].node.position.y)
             //{
             //    transform.Rotate(Vector3.up, 90);
             //}
-            //else if(gridPos.position.x > moveList[0].position.x && transform.right.z > 0)
-            //{
-            //    transform.Rotate(Vector3.up, 90);
-            //}
-            //else if(gridPos.position.x == moveList[0].position.x && gridPos.position.y < moveList[0].position.y)
+            //else if(gridPos.position.y > moveList[0].node.position.y)
             //{
             //    transform.Rotate(Vector3.up, -90);
             //}
-            //else if (gridPos.position.x == moveList[0].position.x && gridPos.position.y > moveList[0].position.y)
-            //{
-            //    transform.Rotate(Vector3.up, 90);
-            //}
 
-            gridPos = moveList[0];
+            transform.Rotate(Vector3.up, moveList[0].rotate);
+            gridPos = moveList[0].node;
             moveList.Remove(moveList[0]);
         }
     }
