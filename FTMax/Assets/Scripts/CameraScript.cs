@@ -23,8 +23,7 @@ public class CameraScript : MonoBehaviour {
             // this.transform.rotation = new Vector3(this.transform.rotation.x, this.transform.rotation.y, this.transform.rotation.z + .01f);
             this.transform.rotation = Quaternion.AngleAxis(Random.Range(-2, 2), Vector3.forward);//10, Vector3.forward);
             shakeCounter++;
-            if (shakeCounter > 30)
-            {
+            if (shakeCounter > 30){
                 shake = false;
             }
         }
