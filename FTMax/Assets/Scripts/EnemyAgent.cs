@@ -13,11 +13,6 @@ public class EnemyAgent : BattleAgent {
 	// Update is called once per frame
 	void Update () {
         base.Update();
-        if (moveList.Count == 0)
-        {
-            int act = Random.Range(0, 9);
-            RequestMoveAction(act);
-        }
     }
 
     public void GenerateMove()
