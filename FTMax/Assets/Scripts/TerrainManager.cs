@@ -171,6 +171,10 @@ public class TerrainManager : Singleton<TerrainManager> {
                     //x *= -1;
                     z *= -1;
                 }
+               else if(localFwd.normalized.z > 0)
+                {
+                    x *= -1;
+                }
 
             }
 
